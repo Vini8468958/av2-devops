@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Site desenvolvido em ... , para um sistema de gestão de tarefas To-Do List. Para organização de tarefas diárias.
+Site desenvolvido em HTML, CSS, JavaScript, Python utilizando Flask, e conexão com banco de dados relacional para um sistema de gestão de tarefas To-Do List. Roda em qualquer ambiente via Docker e possui implementação de automação usando GitHub Actions. Para organização de tarefas diárias.
 
 ## Tecnologias Utilizadas
 Estas foram as tecnologias utilizadas no nosso projeto:
