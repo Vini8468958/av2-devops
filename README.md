@@ -5,6 +5,13 @@
 Site desenvolvido em ... , para um sistema de gestão de tarefas To-Do List. Para organização de tarefas diárias.
 
 ## Tecnologias Utilizadas
+Estas foram as tecnologias utilizadas no nosso projeto:
+
+* HTML
+* CSS
+* JAVASCRIPT
+* PYTHON
+* DOCKER
 
 ## Guia de Instalação
 
