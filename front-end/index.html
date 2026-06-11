@@ -4,24 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gerenciador de Tarefas</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* RESET */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        /* BODY */
+        body{
+            background:#0f172a;
+            color:white;
+            min-height:100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding:30px;
+        }
+        /* CONTAINER DE LOGIN */
+        .login-card {
+            background:#1e293b;
+            padding:40px;
+            border-radius:15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .login-card h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        input {
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            background:#334155;
+            color:white;
+            font-size: 16px;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        input:focus {
+            background: #475569;
+        }
+
+        .btn-login {
+            width:100%;
+            padding:14px;
+            background:#2563eb;
+            color:white;
+            border: none;
+            border-radius:8px;
+            font-weight:bold;
+            font-size: 16px;
+            cursor:pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background:#1d4ed8;
+        }
+
+        .error-message {
+            color: #ef4444;
+            margin-top: 15px;
+            font-size: 14px;
+            text-align: center;
+            min-height: 20px;
+            visibility: hidden;
+        }
+
+        .error-message.show {
+            visibility: visible;
+        }
+
+        .login-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <form class="login-form" id="loginForm">
-            <h2>Login</h2>
+    <div class="login-card">
+        <h2>📋 Login</h2>
+        <form id="loginForm">
             <div class="input-group">
-                <label for="username">Usuário:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Usuário</label>
+                <input type="text" id="username" placeholder="Digite seu usuário" required>
             </div>
             <div class="input-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
             </div>
-            <button type="submit">Entrar</button>
-            <p class="error-message" id="errorMessage"></p>
+            <button type="submit" class="btn-login">Entrar</button>
+            <p class="error-message" id="errorMessage">Usuário ou senha inválidos.</p>
         </form>
+        <div class="login-footer">
+            <p>Gerencie suas tarefas com eficiência.</p>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
