@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+
+    <style>
+/* RESET */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+/* BODY */
+        body{
+            background:#0f172a;
+            color:white;
+            min-height:100vh;
+            padding:30px;
+        }
+/* CONTAINER PRINCIPAL */
+        .container{
+            max-width:1200px;
+            margin:auto;
+        }
+/* CABEÇALHO */
+        .header{
+            background:#1e293b;
+            padding:25px;
+            border-radius:15px;
+            margin-bottom:25px;
+        }
+
+        .header h1{
+            margin-bottom:10px;
+        }
+/* ESTATÍSTICAS */
+        .stats{
+            display:flex;
+            gap:15px;
+            margin-top:20px;
+        }
+
+        .card-stat{
+            flex:1;
+            background:#334155;
+            padding:15px;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        .content{
+            display:grid;
+            grid-template-columns:350px 1fr;
+            gap:20px;
+        }
+
+        .card{
+            background:#1e293b;
+            padding:20px;
+            border-radius:15px;
+        }
+
+        .card h2{
+            margin-bottom:20px;
+        }
+
+        input, select{
+            width:100%;
+            padding:12px;
+            margin-bottom:12px;
+            border:none;
+            border-radius:8px;
+            background:#334155;
+            color:white;
+        }
+
+        button{
+            cursor:pointer;
+            border:none;
+        }
+
+        .btn-add{
+            width:100%;
+            padding:12px;
+            background:#2563eb;
+            color:white;
+            border-radius:8px;
+            font-weight:bold;
+        }
+
+        .search{
+            margin-bottom:15px;
+        }
+/* FILTROS */
+        .filters{
+            display:flex;
+            gap:10px;
+            margin-bottom:20px;
+        }
+
+        .filter-btn{
+            padding:10px 15px;
+            background:#334155;
+            color:white;
+            border-radius:8px;
+        }
+
+        .filter-btn.active{
+            background:#2563eb;
+        }
+/* LISTA DE TAREFAS */
+        .task{
+            background:#334155;
+            border-radius:10px;
+            padding:15px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:10px;
+        }
+
+        .task-left{
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        }
+
+        .task.completed .task-title{
+            text-decoration:line-through;
+            opacity:.6;
+        }
+
+        .task-info{
+            display:flex;
+            flex-direction:column;
+            gap:5px;
+        }
+
+        .task-date{
+            font-size:12px;
+            color:#cbd5e1;
+        }
+
+        .badge{
+            display:inline-block;
+            padding:4px 8px;
+            border-radius:20px;
+            font-size:12px;
+            margin-top:4px;
+        }
+
+        .alta{
+            background:#dc2626;
+        }
+
+        .media{
+            background:#ca8a04;
+        }
+
+        .baixa{
+            background:#16a34a;
+        }
+
+        .actions{
+            display:flex;
+            gap:8px;
+        }
+
+        .btn-complete{
+            background:#16a34a;
+            color:white;
+            padding:8px 12px;
+            border-radius:6px;
+        }
+
+        .btn-delete{
+            background:#dc2626;
+            color:white;
+            padding:8px 12px;
+            border-radius:6px;
+        }
+/* RESPONSIVIDADE */
+        @media(max-width:900px){
+            .content{
+                grid-template-columns:1fr;
+            }
+
+            .stats{
+                flex-direction:column;
+            }
+        }
+    </style>
+</head>
+<body>
+           <!-- Container principal -->
+<div class="container">
+
+    <div class="header">
+        <h1>📋 To-Do List</h1>
+        <p>Gerencie e organize suas tarefas diárias.</p>
+            <!-- Estatísticas -->
+        <div class="stats">
+            <div class="card-stat">
+                <h2 id="totalTasks">0</h2>
+                <p>Total</p>
+            </div>
+
+            <div class="card-stat">
+                <h2 id="pendingTasks">0</h2>
+                <p>Pendentes</p>
+            </div>
+
+            <div class="card-stat">
+                <h2 id="completedTasks">0</h2>
+                <p>Concluídas</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <h2>Nova Tarefa</h2>
+
+            <input type="text" id="taskTitle" placeholder="Título da tarefa">
+                  <!-- Data da tarefa -->
+            <input type="date" id="taskDate">
+                 <!-- Seleção de prioridade -->
+            <select id="taskPriority">
+                <option value="Baixa">Baixa</option>
+                <option value="Média">Média</option>
+                <option value="Alta">Alta</option>
+            </select>
+                <!-- Área para adicionar nova tarefa -->
+            <button class="btn-add" onclick="addTask()">
+                Adicionar Tarefa
+            </button>
+        </div>
+
+        <div class="card">
+                <!-- Campo para digitar a tarefa -->
+            <input
+                type="text"
+                id="search"
+                class="search"
+                placeholder="Pesquisar tarefa..."
+            >
+               <!-- Botões de filtros de tarefas -->
+            <div class="filters">
+                <button class="filter-btn active" onclick="changeFilter('all', this)">
+                    Todas
+                </button>
+
+                <button class="filter-btn" onclick="changeFilter('pending', this)">
+                    Pendentes
+                </button>
+
+                <button class="filter-btn" onclick="changeFilter('completed', this)">
+                    Concluídas
+                </button>
+            </div>
+               <!-- Lista de tarefas -->
+            <div id="taskList"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+/* ARRAY QUE ARMAZENA AS TAREFAS */
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+/* FILTRO ATUAL */
+let currentFilter = "all";
+
+const taskList = document.getElementById("taskList");
+const searchInput = document.getElementById("search");
+
+function saveTasks(){
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+/* ADICIONAR NOVA TAREFA */
+function addTask(){
+// Remove espaços extras
+    const title = document.getElementById("taskTitle").value.trim();
+    const date = document.getElementById("taskDate").value;
+    const priority = document.getElementById("taskPriority").value;
+
+// Validação
+    if(!title){
+        alert("Digite um título.");
+        return;
+    }
+
+// Adiciona ao array
+    tasks.push({
+        id: Date.now(),
+        title,
+        date,
+        priority,
+        completed:false
+    });
+
+    saveTasks();
+// Atualiza tela
+    renderTasks();
+
+// Limpa formulário
+    document.getElementById("taskTitle").value = "";
+    document.getElementById("taskDate").value = "";
+}
+/* MARCAR COMO CONCLUÍDA */
+function toggleTask(id){
+    tasks = tasks.map(task =>
+        task.id === id
+            ? {...task, completed: !task.completed}
+            : task
+    );
+
+    saveTasks();
+ // Atualiza tela
+    renderTasks();
+}
+/* EXCLUIR TAREFA */
+function deleteTask(id){
+
+    tasks = tasks.filter(task => task.id !== id);
+
+    saveTasks();
+    renderTasks();
+}
+/* FILTROS */
+function changeFilter(filter, button){
+
+    currentFilter = filter;
+
+    document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    renderTasks();
+}
+/* ATUALIZAR ESTATÍSTICAS */
+function updateStats(){
+
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const pending = total - completed;
+
+    document.getElementById("totalTasks").textContent = total;
+    document.getElementById("pendingTasks").textContent = pending;
+    document.getElementById("completedTasks").textContent = completed;
+}
+/* RENDERIZAR TAREFAS */
+function renderTasks(){
+
+    const search = searchInput.value.toLowerCase();
+
+    let filtered = tasks.filter(task =>
+        task.title.toLowerCase().includes(search)
+    );
+
+    if(currentFilter === "pending"){
+        filtered = filtered.filter(task => !task.completed);
+    }
+
+    if(currentFilter === "completed"){
+        filtered = filtered.filter(task => task.completed);
+    }
+
+    taskList.innerHTML = "";
+
+    filtered.reverse().forEach(task => {
+// Classe da prioridade
+
+        const priorityClass = task.priority.toLowerCase()
+            .replace("é","e");
+
+        taskList.innerHTML += `
+            <div class="task ${task.completed ? 'completed' : ''}">
+                <div class="task-left">
+                    <input
+                        type="checkbox"
+                        ${task.completed ? "checked" : ""}
+                        onchange="toggleTask(${task.id})"
+                    >
+
+                    <div class="task-info">
+                        <span class="task-title">${task.title}</span>
+                        <span class="task-date">${task.date || 'Sem data'}</span>
+
+                        <span class="badge ${priorityClass}">
+                            ${task.priority}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button
+                        class="btn-complete"
+                        onclick="toggleTask(${task.id})">
+                        ✓
+                    </button>
+
+                    <button
+                        class="btn-delete"
+                        onclick="deleteTask(${task.id})">
+                        🗑
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    updateStats();
+}
+
+searchInput.addEventListener("input", renderTasks);
+/* RENDERIZAÇÃO INICIAL */
+renderTasks();
+
+</script>
+
+</body>
+</html>
